@@ -1,6 +1,6 @@
 function setup() {
   createCanvas(400, 400);
-  circle1 = new Circle(200, 200, 100);
+  circle1 = new Circle(200, 200, 200);
   circle2 = new Circle(200, 200, 50);
 } 
 
@@ -17,7 +17,7 @@ class Circle {
   constructor(x, y, r) {
     this.x = x;
     this.y = y;
-    this.r = r;
+    this.r = r / 2;
     
     this.c = color(0);
   }
@@ -29,7 +29,7 @@ class Circle {
   
   touching(x2, y2, r2) {
     let dist = pow(this.x - x2, 2) + pow(this.y - y2, 2);
-    let rad = pow(this.r - r2, 2);
+    let rad = pow(this.r + r2, 2);
 
     if (dist > rad) {
       this.c = color(0);
@@ -42,6 +42,6 @@ class Circle {
   
   draw() {
     fill(this.c);
-    ellipse(this.x, this.y, this.r);
+    ellipse(this.x, this.y, this.r * 2);
   }
 }
