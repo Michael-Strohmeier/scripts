@@ -22,13 +22,13 @@ class Character {
 
 class Kana {
   constructor(w, h) {
-    this.word = "あいうえお";
+    this.word = "あたまかたひざあしひざあし";
     this.characters = [];
     
     this.w = w;
     this.h = h;
     
-    this.textSize = this.w / 8;
+    this.textSize = this.w / this.word.length / 1.2;
     
     this.blue = color(66, 133, 244, 200);
     this.red = color(219, 68, 55, 200);
@@ -62,7 +62,8 @@ class Kana {
     for (let i = 0; i < this.word.length; i++) {
       for (let j = 0; j < romajiTable.length; j++) {
         if (romajiTable[j][1] == this.word[i]) {
-          this.characters.push(new Character(this.word[i], this.getColor(i)));
+          this.characters.push(new Character(this.word[i], this.getColor(j)));
+          break;
         }
     }
     }
