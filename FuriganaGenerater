@@ -1,0 +1,130 @@
+let kanjiTable = [['行(い)く', 'いく', 'go'], ['見(み)る', 'みる', 'see, look at'], ['多(おお)い', 'おおい', 'a lot of, many'], ['家(いえ)', 'いえ', 'home, household']];
+
+function setup() {
+  createCanvas(400, 400);
+  app = new App();
+  
+}
+
+function mousePressed() {
+  app.nextCard();
+}
+
+function draw() {
+  background(220);
+  app.draw();
+}
+
+class KanjiCard {
+  constructor() {
+    this.n = 0;
+    this.color = color(0);
+    
+    this.textSize = 50;
+    
+    this.d = {};
+    this.clean = "";
+    
+    this.definition = "";
+  }
+
+  setKanjiNumber(n) {
+    this.n = n;
+    this.what();
+  }
+  
+  what() {
+    let s = kanjiTable[this.n][0];
+    this.definition = kanjiTable[this.n][2];
+    
+    let d = {};
+    
+    let clean = "";
+    let i = 0;
+    let kanji = "";
+    let temp = "";
+    
+    while (i < s.length) {
+      kanji = s[i];
+      if (s[i] == '(') {
+        temp = ""
+        kanji = s[i - 1];
+
+        i += 1;
+        while (s[i] != ')') {
+          temp += s[i];
+          i += 1;
+        }
+        
+        d[kanji] = temp;
+        i += 1;
+        continue;
+          
+      }
+      
+      clean += kanji;
+      i += 1;
+      
+    }
+    
+  this.clean = clean;
+  this.d = d;
+
+    
+
+  }
+  
+  draw() {
+    textAlign(CENTER, CENTER);
+    // kanji
+    let offsetX = (this.clean.length - 1) * this.textSize / 2;
+    for (let i = 0; i < this.clean.length; i++) {
+      
+      if (this.clean[i] in this.d) {
+        textSize(this.textSize / 2.3);
+        text(this.d[this.clean[i]], 200 + 20 * i - offsetX, 200 - this.textSize / 1.2);
+
+      }
+
+      textSize(this.textSize);
+      text(this.clean[i], 200 + this.textSize * i - offsetX, 200);
+      
+      
+
+    }
+    
+    textSize(this.textSize / 2.6);
+      text(this.definition, 200, 250);
+  }
+}
+
+class App {
+  constructor() {
+    this.maxKanjiNumber = 4;
+    this.kanjiNumber = 0;
+    
+    this.kanjiCard = new KanjiCard();
+    this.setup();
+  }
+  
+  setup() {
+    this.nextCard();
+  }
+  
+  nextCard() {
+    let tempNum = this.kanjiNumber;
+    while (tempNum == this.kanjiNumber) {
+      tempNum = Math.floor(Math.random() * this.maxKanjiNumber);
+    }
+    
+    this.kanjiNumber = tempNum;
+    this.kanjiCard.setKanjiNumber(this.kanjiNumber);
+    
+  }
+  
+  draw() {
+    this.kanjiCard.draw();
+  }
+  
+  
+}
